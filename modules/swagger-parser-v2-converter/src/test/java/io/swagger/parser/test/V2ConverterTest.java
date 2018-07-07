@@ -77,6 +77,7 @@ public class V2ConverterTest {
     private static final String ISSUE_673_YAML = "issue-673.yaml";
     private static final String ISSUE_676_JSON = "issue-676.json";
     private static final String ISSUE_708_YAML = "issue-708.yaml";
+    private static final String ISSUE_758_JSON = "issue-758.json";
 
     private static final String API_BATCH_PATH = "/api/batch/";
     private static final String PETS_PATH = "/pets";
@@ -584,6 +585,19 @@ public class V2ConverterTest {
         assertNotNull(anEnum);
         assertEquals(anEnum.get(0), true);
         assertEquals(anEnum.get(1), false);
+    }
+
+    @Test(description = "OpenAPI v2 converter - enum with missing type")
+    public void testIssue758() throws Exception {
+        OpenAPI oas = getConvertedOpenAPIFromJsonFile(ISSUE_758_JSON);
+        List<Parameter> parameters = oas.getPaths().get("/echo").getPost().getParameters();
+        assertNotNull(parameters);
+
+        List anEnum = parameters.get(0).getSchema().getEnum();
+        assertNotNull(anEnum);
+        assertEquals(anEnum.get(0), "forks");
+        assertEquals(anEnum.get(1), "stars");
+        assertEquals(anEnum.get(2), "updated");
     }
 
     @Test(description = "OpenAPI v2 converter - Error in BodyParameter convertion")
