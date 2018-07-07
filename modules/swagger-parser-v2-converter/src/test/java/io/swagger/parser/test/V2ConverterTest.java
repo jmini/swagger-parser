@@ -77,6 +77,7 @@ public class V2ConverterTest {
     private static final String ISSUE_673_YAML = "issue-673.yaml";
     private static final String ISSUE_676_JSON = "issue-676.json";
     private static final String ISSUE_708_YAML = "issue-708.yaml";
+    private static final String ISSUE_756_YAML = "issue-756.yaml";
 
     private static final String API_BATCH_PATH = "/api/batch/";
     private static final String PETS_PATH = "/pets";
@@ -550,6 +551,12 @@ public class V2ConverterTest {
 
         String ref = oas.getComponents().getRequestBodies().get("b").getContent().get("*/*").getSchema().get$ref();
         assertEquals(ref, SCHEMAS_A_REF);
+    }
+
+    @Test(description = "OpenAPI v2 converter - no model in body parameter")
+    public void testIssue756() throws Exception {
+        OpenAPI oas = getConvertedOpenAPIFromJsonFile(ISSUE_756_YAML);
+        assertNotNull(oas);
     }
 
     @Test(description = "OpenAPI v2 converter - NPE when no \"paths\" is empty")
